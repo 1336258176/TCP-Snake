@@ -12,14 +12,14 @@ int main()
     if (ch == 'q')flag = 0;
 
     if (player1.Die(game.GetFrontier()))
-      game.End();
+      game.End(player1.GetBodyDebug());
 
     game.LoadMap();
     game.LoadFood(player1.GetHead());
 
+    player1.Move();
     if (player1.Eat(game.GetFood()))
       player1.Add();
-    player1.Move();
 
     game.LoadSnake(player1.GetBody(), player1.GetRadius());
     game.ShowMap();

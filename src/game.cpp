@@ -65,7 +65,7 @@ void Game::Start()
   }
 }
 
-void Game::End()
+void Game::End(std::vector<cv::Point2i> &snake)
 {
   Refresh();
   cv::putText(map_,
@@ -74,7 +74,17 @@ void Game::End()
               7,
               2.4, cv::Scalar(47, 84, 235), 2);
   cv::imshow("TCP-Snake", map_);
-  cv::waitKey(0);
+  char key = static_cast<char>(cv::waitKey(0));
+  if (key == 'r') {
+    snake.clear();
+    snake.shrink_to_fit();
+    snake.emplace_back(324, 324);
+    snake.emplace_back(324, 324 - Radius / 2);
+    snake.emplace_back(324, 324 - Radius);
+    food_.x = rand_int_(gen_);
+    food_.y = rand_int_(gen_);
+    return;
+  }
 }
 
 void Game::ShowMap() const

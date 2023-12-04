@@ -27,7 +27,7 @@ class Game {
   std::uniform_int_distribution<> rand_int_;
 
  public:
-  explicit Game(int radius = 5, int length = 6, int width = 648, int height =
+  explicit Game(int radius = 4, int length = 6, int width = 648, int height =
   648)
       : Radius(radius), LENGTH(length), HEIGHT(height),
         WIDTH(width)
@@ -48,7 +48,7 @@ class Game {
     cv::destroyAllWindows();
   };
   void Start();
-  void End();
+  void End(std::vector<cv::Point2i> &snake);
 
   [[nodiscard]] const cv::Point2i &GetFood() const
   { return food_; }

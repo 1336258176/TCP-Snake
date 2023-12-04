@@ -38,20 +38,23 @@ bool Snake::Die(const cv::Rect2i &frontier) const
   if (body_[0].x > t.x && body_[0].y > t.y && body_[0].x < (t.x + t.width)
       && body_[0].y < (t.y + t.height))
     return false;
+  for (const auto &point : body_) {
+    if (point == body_[0])return true;
+  }
   return true;
 }
 
 bool Snake::Eat(const cv::Point2i &food) const
 {
-  if (body_[0].x >= food.x - radius_ && body_[0].x <= food.x + radius_ &&
-      body_[0].y >= food.y - radius_ && body_[0].y <= food.y + radius_)
-    return true;
-  return false;
+  int distanceSquared = (body_[0].x - food.x) * (body_[0].x - food.x) +
+                        (body_[0].y - food.y) * (body_[0].y - food.y);
+
+  return distanceSquared <= radius_ * radius_;
 }
 
 void Snake::GetMove()
 {
-  char move_ = static_cast<char>(cv::waitKey(30));
+  char move_ = static_cast<char>(cv::waitKey(100));
   switch (move_) {
     case 'w':head_ = Orientations::UP;
       break;

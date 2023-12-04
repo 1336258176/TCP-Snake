@@ -12,6 +12,9 @@ CTestTestfile.cmake
 _deps
 cmake-build-debug
 
+### IDE
+.idea
+
 ### C template
 # Prerequisites
 *.d

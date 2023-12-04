@@ -25,8 +25,8 @@ class Snake {
       : radius_(radius), step_(step)
   {
     body_.emplace_back(324, 324);
-    body_.emplace_back(324, 324 - radius / 2);
-    body_.emplace_back(324, 324 - radius);
+    body_.emplace_back(324, 324 - radius_ / 2);
+    body_.emplace_back(324, 324 - radius_);
   }
   ~Snake() = default;
 
@@ -40,6 +40,8 @@ class Snake {
   { return body_; }
   [[nodiscard]] int GetRadius() const
   { return radius_; }
+  std::vector<cv::Point2i> &GetBodyDebug()
+  { return body_; }
 
   [[nodiscard]] bool Die(const cv::Rect2i &frontier) const;
   [[nodiscard]] bool Empty() const;
