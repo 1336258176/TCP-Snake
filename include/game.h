@@ -6,6 +6,7 @@
 #define TCP_SNAKE__GAME_H_
 
 #include <opencv2/opencv.hpp>
+#include <boost/log/trivial.hpp>
 #include <random>
 #include <memory>
 

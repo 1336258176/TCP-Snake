@@ -3,6 +3,7 @@
 //
 
 #include "../include/game.h"
+#include <boost/log/trivial.hpp>
 
 void Game::LoadMap()
 {
@@ -46,6 +47,7 @@ void Game::LoadFood(const cv::Point2i &snake_head)
 
 void Game::Start()
 {
+  BOOST_LOG_TRIVIAL(info) << "Game start ...";
   Refresh();
   cv::putText(map_,
               "TCP-Snake",
@@ -67,6 +69,7 @@ void Game::Start()
 
 void Game::End(std::vector<cv::Point2i> &snake)
 {
+  BOOST_LOG_TRIVIAL(info) << "Game end ...";
   Refresh();
   cv::putText(map_,
               "You're dead.",

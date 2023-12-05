@@ -52,9 +52,10 @@ bool Snake::Eat(const cv::Point2i &food) const
   return distanceSquared <= radius_ * radius_;
 }
 
+// TODO:操作逻辑重构，全局读取按键
 void Snake::GetMove()
 {
-  char move_ = static_cast<char>(cv::waitKey(100));
+  char move_ = static_cast<char>(cv::waitKey(200));
   switch (move_) {
     case 'w':head_ = Orientations::UP;
       break;
