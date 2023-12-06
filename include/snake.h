@@ -5,11 +5,13 @@
 #ifndef TCP_SNAKE__SNAKE_H_
 #define TCP_SNAKE__SNAKE_H_
 
-#include <opencv2/opencv.hpp>
-#include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
 #include <thread>
+
+#include <opencv2/opencv.hpp>
+#include <nlohmann/json.hpp>
+
 #include "game.h"
 #include "TCP.h"
 

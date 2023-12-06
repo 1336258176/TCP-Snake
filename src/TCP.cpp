@@ -50,13 +50,21 @@ void TCP::InitCli(const char *ip, int port)
 void TCP::SendMsg(std::string &msg) const
 {
   BOOST_LOG_TRIVIAL(info) << "sending msg ...";
-  write(accepted_socket, msg.c_str(), sizeof(char) * (msg.size() + 1));
+  ssize_t written_byte =
+      write(accepted_socket, msg.c_str(), sizeof(char) * (msg.size() + 1));
+  if (written_byte == -1) {
+    BOOST_LOG_TRIVIAL(error) << "failed to send msg as server ...";
+    abort();
+  }
 }
 
 std::string TCP::Receive() const
 {
   BOOST_LOG_TRIVIAL(info) << "received msg ...";
   char buffer[100];
-  read(socket_cli, buffer, sizeof(buffer));
+  ssize_t read_byte = read(socket_cli, buffer, sizeof(buffer));
+  if (read_byte == -1) {
+    BOOST_LOG_TRIVIAL(error) << "failed to read msg as client ...";
+  }
   return std::move(std::string(buffer));
 }

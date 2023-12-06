@@ -19,15 +19,15 @@
 
 class TCP {
  private:
-  //作为服务端
+  // as server
   int socket_serv;
   sockaddr_in serv_addr;
-  //服务端到客户端通信socket
+  // socket for ser2cli
   int accepted_socket;
-  //连接到的客户端
+  // connected clients
   sockaddr_in accepted_sockadrr;
 
-  //作为客户端
+  // as client
   int socket_cli;
   sockaddr_in cli2serv_addr;
 
@@ -47,14 +47,14 @@ class TCP {
     close(accepted_socket);
   }
 
-  //服务端
+  // server
   [[nodiscard]] int GetServ2CliSocket() const
   { return accepted_socket; }
   void InitServ(const char *ip, int port);
   void StartServ(int queue_length = 20);
   void SendMsg(std::string &msg) const;
 
-  //客户端
+  // client
   [[nodiscard]] int GetCliSocket() const
   { return socket_cli; }
   void InitCli(const char *ip, int port);
