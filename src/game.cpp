@@ -7,6 +7,7 @@
 
 void Game::LoadMap()
 {
+  BOOST_LOG_TRIVIAL(info) << "loading map ...";
   for (int i = 0; i < WIDTH; i += LENGTH) {
     cv::rectangle(map_,
                   cv::Rect2i(i, 0, LENGTH, LENGTH),
@@ -25,14 +26,14 @@ void Game::LoadMap()
                   -1);
     cv::rectangle(map_,
                   cv::Rect2i(WIDTH - LENGTH, i, LENGTH, LENGTH),
-                  cv::Scalar
-                      (255, 144, 24),
+                  cv::Scalar(255, 144, 24),
                   -1);
   }
 }
 
 void Game::LoadFood(const cv::Point2i &snake_head)
 {
+  BOOST_LOG_TRIVIAL(info) << "loading food ...";
   if (snake_head.x >= food_.x - Radius && snake_head.x <= food_.x + Radius &&
       snake_head.y >= food_.y - Radius && snake_head.y <= food_.y + Radius) {
     food_.x = rand_int_(gen_);
@@ -47,18 +48,22 @@ void Game::LoadFood(const cv::Point2i &snake_head)
 
 void Game::Start()
 {
-  BOOST_LOG_TRIVIAL(info) << "Game start ...";
+  BOOST_LOG_TRIVIAL(info) << "Game starts ...";
   Refresh();
   cv::putText(map_,
               "TCP-Snake",
               cv::Point2i(WIDTH / 5 - 25, HEIGHT / 5 * 2),
               7,
-              2.4, cv::Scalar(47, 84, 235), 2);
+              2.4,
+              cv::Scalar(47, 84, 235),
+              2);
   cv::putText(map_,
               "Press 't' to start the game...",
               cv::Point2i(WIDTH / 4 - 10, HEIGHT / 3 * 2 - 40),
               5,
-              0.9, cv::Scalar(255, 255, 255), 1);
+              0.9,
+              cv::Scalar(255, 255, 255),
+              1);
   int flag = 1;
   while (flag) {
     cv::imshow("TCP-Snake", map_);
@@ -69,7 +74,7 @@ void Game::Start()
 
 void Game::End(std::vector<cv::Point2i> &snake)
 {
-  BOOST_LOG_TRIVIAL(info) << "Game end ...";
+  BOOST_LOG_TRIVIAL(info) << "Game ended ...";
   Refresh();
   cv::putText(map_,
               "You're dead.",
@@ -79,6 +84,7 @@ void Game::End(std::vector<cv::Point2i> &snake)
   cv::imshow("TCP-Snake", map_);
   char key = static_cast<char>(cv::waitKey(0));
   if (key == 'r') {
+    BOOST_LOG_TRIVIAL(info) << "game restarts ...";
     snake.clear();
     snake.shrink_to_fit();
     snake.emplace_back(324, 324);
@@ -92,6 +98,7 @@ void Game::End(std::vector<cv::Point2i> &snake)
 
 void Game::ShowMap() const
 {
+  BOOST_LOG_TRIVIAL(info) << "showing map ...";
   cv::imshow("TCP-Snake", map_);
   cv::waitKey(1000 / 70);
 }
@@ -103,6 +110,7 @@ void Game::Refresh()
 
 void Game::LoadSnake(const std::vector<cv::Point2i> &snake, int Radius)
 {
+  BOOST_LOG_TRIVIAL(info) << "loading snake ...";
   for (int i = 0; i < snake.size(); i++) {
     if (i == 0)cv::circle(map_, snake[i], Radius, cv::Scalar{79, 77, 255}, -1);
     else cv::circle(map_, snake[i], Radius, cv::Scalar{26, 7, 168}, -1);

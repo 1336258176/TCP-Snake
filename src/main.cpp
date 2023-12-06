@@ -1,5 +1,6 @@
 #include "../include/game.h"
 #include "../include/snake.h"
+#include "../include/TCP.h"
 
 int main()
 {
@@ -29,14 +30,15 @@ int main()
 // ################### test TCP ###################
 //  std::thread t1([]() {
 //    TCP player1 = TCP();
-//    player1.InitServ("127.0.0.1", 3000);
+//    player1.InitServ("127.0.0.1", 4000);
 //    player1.StartServ();
 //    std::string test_send = "hello!";
 //    player1.SendMsg(test_send);
 //  });
 //  std::thread t2([]() {
+//    sleep(1);
 //    TCP player2 = TCP();
-//    player2.InitCli("127.0.0.1", 3000);
+//    player2.InitCli("127.0.0.1", 4000);
 //    std::string test_res = player2.Receive();
 //    std::cout << "Received msg: " << test_res << std::endl;
 //  });

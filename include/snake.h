@@ -15,7 +15,7 @@
 #include "game.h"
 #include "TCP.h"
 
-class Snake {
+class Snake : public TCP {
  private:
   int radius_;
   int step_;
