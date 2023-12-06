@@ -6,24 +6,32 @@
 
 void TCP::InitServ(const char *ip, int port)
 {
+  BOOST_LOG_TRIVIAL(info) << "initializing server ...";
   serv_addr.sin_family = AF_INET;
   serv_addr.sin_addr.s_addr = inet_addr(ip);
   serv_addr.sin_port = htons(port);
-  if (bind(socket_serv,
-           reinterpret_cast<const sockaddr *>(&serv_addr),
-           sizeof(serv_addr))) {
-    std::cerr << "Failed to bind a port as a server.\n";
+  if (bind(socket_serv, (struct sockaddr *) (&serv_addr), sizeof(serv_addr))) {
+    BOOST_LOG_TRIVIAL(error) << "failed to bind server port ...";
     std::abort();
   }
 }
 
 void TCP::StartServ(int queue_length)
 {
-  listen(socket_serv, queue_length);
+  BOOST_LOG_TRIVIAL(info) << "start server ...";
+  if (listen(socket_serv, queue_length)) {
+    BOOST_LOG_TRIVIAL(error) << "failed to listen port ...";
+    abort();
+  }
   socklen_t accepted_sock_addr_size = sizeof(accepted_sockadrr);
+  // This function is blocking
   accepted_socket = accept(socket_serv,
                            (struct sockaddr *) (&accepted_sockadrr),
                            &accepted_sock_addr_size);
+  if (accepted_socket == -1) {
+    BOOST_LOG_TRIVIAL(error) << "server failed to accept ...";
+    abort();
+  }
 }
 
 void TCP::InitCli(const char *ip, int port)
@@ -34,7 +42,21 @@ void TCP::InitCli(const char *ip, int port)
   if (connect(socket_cli,
               (struct sockaddr *) &cli2serv_addr,
               sizeof(cli2serv_addr))) {
-    std::cerr << "Failed to connect to the server as a client.\n";
+    BOOST_LOG_TRIVIAL(error) << "failed to connect to the server ...";
     std::abort();
   }
+}
+
+void TCP::SendMsg(std::string &msg) const
+{
+  BOOST_LOG_TRIVIAL(info) << "sending msg ...";
+  write(accepted_socket, msg.c_str(), sizeof(char) * (msg.size() + 1));
+}
+
+std::string TCP::Receive() const
+{
+  BOOST_LOG_TRIVIAL(info) << "received msg ...";
+  char buffer[100];
+  read(socket_cli, buffer, sizeof(buffer));
+  return std::move(std::string(buffer));
 }
